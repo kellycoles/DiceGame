@@ -6,53 +6,11 @@ GAME RULES:
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
 */
-let scores, roundScore, activePlayer;
 
-init();
-
-document.querySelector(".btn-roll").addEventListener("click", () => {
-    //1. Random number
-    let dice = Math.floor(Math.random() * 6) + 1;
-
-    //2. Display the result
-    let diceDOM = document.querySelector(".dice")
-    diceDOM.style.display = "block";
-    diceDOM.src = "images/dice-" + dice + ".png"
-
-    //3. Update the round score IF the number was not a 1.
-    if (dice !== 1) {
-        //add score
-        roundScore += dice;
-        document.querySelector("#current-" + activePlayer).textContent = roundScore;
-    } else {
-        nextPlayer();
-    }
-});
-document.querySelector(".btn-hold").addEventListener("click", () => {
-    //Add the current score to the player's global score
-    scores[activePlayer] += roundScore;
-
-    //Update the user interface
-    document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
-
-    //Check if the player won the game
-    if (scores[activePlayer] >= 10) {
-        document.querySelector("#name-" + activePlayer).textContent = "Winner!";
-        document.querySelector(".dice").display = "none";
-        document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
-        document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
-
-    } else {
-        nextPlayer();
-    }
-})
-
-document.querySelector(".btn-new").addEventListener(click, init);
-
-//=================
+//======================================================================
 //functions
-//===================
-nextPlayer = () => {
+//======================================================================
+const nextPlayer = () => {
     //next player
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     roundScore = 0;
@@ -65,10 +23,11 @@ nextPlayer = () => {
     document.querySelector(".dice").style.display = "none";
 }
 
-init = () => {
-    scores[0, 0];
+const init = () => {
+    scores = [0, 0];
     activePlayer = 0;
     roundScore = 0;
+    gamePlaying = true;
 
     document.querySelector(".dice").style.display = "none";
 
@@ -83,7 +42,55 @@ init = () => {
     document.querySelector(".player-0-panel").classList.remove("active");
     document.querySelector(".player-1-panel").classList.remove("active");
     document.querySelector(".player-0-panel").classList.add("active");
-    
-    
 
 }
+//==========================================================================
+// Program
+//==========================================================================
+let scores, roundScore, activePlayer, gamePlaying;
+
+init();
+
+document.querySelector(".btn-roll").addEventListener("click", () => {
+    if (gamePlaying) {
+        //1. Random number
+        let dice = Math.floor(Math.random() * 6) + 1;
+
+        //2. Display the result
+        let diceDOM = document.querySelector(".dice")
+        diceDOM.style.display = "block";
+        diceDOM.src = "images/dice-" + dice + ".png"
+
+        //3. Update the round score IF the number was not a 1.
+        if (dice !== 1) {
+            //add score
+            roundScore += dice;
+            document.querySelector("#current-" + activePlayer).textContent = roundScore;
+        } else {
+            nextPlayer();
+        }
+    }
+});
+document.querySelector(".btn-hold").addEventListener("click", () => {
+    if (gamePlaying) {
+        //Add the current score to the player's global score
+        scores[activePlayer] += roundScore;
+
+        //Update the user interface
+        document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
+
+        //Check if the player won the game
+        if (scores[activePlayer] >= 10) {
+            document.querySelector("#name-" + activePlayer).textContent = "Winner!";
+            document.querySelector(".dice").style.display = "none";
+            document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
+            document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
+
+        } else {
+            nextPlayer();
+        }
+    }
+})
+
+document.querySelector(".btn-new").addEventListener("click", init);
+
