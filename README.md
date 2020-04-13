@@ -1,4 +1,4 @@
-<img src = "images/dice.jpg" /> DiceGame
+<img src = "images/dice.jpg" /> # DiceGame
 
 #### GAME RULES:
 - The game has 2 players, playing in rounds
