@@ -66,6 +66,13 @@ document.querySelector(".btn-roll").addEventListener("click", () => {
             //add score
             roundScore += dice;
             document.querySelector("#current-" + activePlayer).textContent = roundScore;
+            if (roundScore>= 10) {
+                document.querySelector("#name-" + activePlayer).textContent = "Winner!";
+                document.querySelector(".dice").style.display = "none";
+                document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
+                document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
+                gamePlaying = false;
+            }
         } else {
             nextPlayer();
         }
@@ -85,7 +92,7 @@ document.querySelector(".btn-hold").addEventListener("click", () => {
             document.querySelector(".dice").style.display = "none";
             document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
             document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
-
+            gamePlaying = false;
         } else {
             nextPlayer();
         }
