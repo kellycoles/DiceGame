@@ -44,6 +44,18 @@ const init = () => {
     document.querySelector(".player-0-panel").classList.add("active");
 
 }
+
+const winningScore = () => {
+    let input = document.querySelector(".final-score").value;
+       
+    let score;
+    if(parseInt(input)){
+        score = input;
+    } else {
+       score = 50;
+    }
+    return score;
+}
 //==========================================================================
 // Program
 //==========================================================================
@@ -66,7 +78,7 @@ document.querySelector(".btn-roll").addEventListener("click", () => {
             //add score
             roundScore += dice;
             document.querySelector("#current-" + activePlayer).textContent = roundScore;
-            if (roundScore>= 50) {
+            if (roundScore >= winningScore()) {
                 document.querySelector("#name-" + activePlayer).textContent = "Winner!";
                 document.querySelector(".dice").style.display = "none";
                 document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
@@ -87,7 +99,7 @@ document.querySelector(".btn-hold").addEventListener("click", () => {
         document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
 
         //Check if the player won the game
-        if (scores[activePlayer] >= 50) {
+        if (scores[activePlayer] >= winningScore()) {
             document.querySelector("#name-" + activePlayer).textContent = "Winner!";
             document.querySelector(".dice").style.display = "none";
             document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
